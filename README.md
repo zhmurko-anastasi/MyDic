@@ -1,0 +1,2 @@
+# MyDic
+rn-project
