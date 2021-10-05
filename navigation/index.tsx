@@ -12,18 +12,18 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../src/constants/Colors';
 import useColorScheme from '../src/hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
+// import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../src/modules/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+// import TabOneScreen from '../screens/TabOneScreen';
+// import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
+// import LinkingConfiguration from './LinkingConfiguration';
 import LoginScreen from '../src/modules/LoginScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
+      // linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RootNavigator />
     </NavigationContainer>
