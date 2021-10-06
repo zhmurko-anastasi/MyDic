@@ -1,16 +1,16 @@
-import React, { ReactElement } from 'react';
+import * as React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 import {mainBlack, mainGrey} from '../../constants/Colors';
 
 export type Props = {
-  icon: ReactElement;
+  icon: React.ReactElement;
   value: string;
   placeholder: string;
   onChange: Function;
 };
 
-export const InputWithIcon: React.FC<Props> = ({
+const InputWithIcon: React.FC<Props> = ({
     icon,
     value,
     placeholder,
@@ -64,4 +64,6 @@ const styles = StyleSheet.create({
     height: 70,
 },
 });
+
+export default InputWithIcon;
 

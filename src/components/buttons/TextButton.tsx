@@ -9,7 +9,7 @@ export type Props = {
   onPress: () => void;
 };
 
-export const LinkText: React.FC<Props> = ({
+export const TextButton: React.FC<Props> = ({
     title,
     extraStyle,
     onPress,
@@ -20,7 +20,7 @@ export const LinkText: React.FC<Props> = ({
         style={styles.linkContainer}
      >
        {({ pressed }) =>
-        <Text style={pressed ? ({...styles.link, ...styles.linkPressed, ...extraStyle}) : ({...styles.link, ...extraStyle}) }>
+        <Text style={pressed ? [styles.link, styles.linkPressed, extraStyle] : [styles.link, extraStyle]}>
            {title}
         </Text>
        }
@@ -41,6 +41,5 @@ const styles = StyleSheet.create({
      linkPressed: {
       opacity: 0.8
      }
-  
   });
 

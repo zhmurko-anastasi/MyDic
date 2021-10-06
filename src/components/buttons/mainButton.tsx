@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
 
-import {mainBlack, mainGrey} from '../../constants/Colors';
+import { mainBlack, mainGrey } from '../../constants/Colors';
 
 export type Props = {
   title: string,
   onPress: () => void;
 };
 
-export const MainButton: React.FC<Props> = ({
+const MainButton: React.FC<Props> = ({
     title,
     onPress,
     ...rest
@@ -58,3 +58,6 @@ const styles = StyleSheet.create({
 
 const buttonPressed = StyleSheet.compose(styles.container, styles.pressed);
 const buttonUnPressed = StyleSheet.compose(styles.container, styles.unPressed);
+
+
+export default MainButton;

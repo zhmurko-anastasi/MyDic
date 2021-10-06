@@ -4,9 +4,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons'; 
 import { RootStackScreenProps } from '../../types';
 
-import { LinkText } from '../components/styledText/linkText';
 import { mainBlack, mainGrey } from '../constants/Colors';
-import { InputWithIcon, MainButton } from '../components';
+import { InputWithIcon, MainButton, TextButton  } from '../components';
 
 
 export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'>) {
@@ -46,7 +45,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
         icon = {<Ionicons name="key-outline" size={15} color={mainGrey}  />}
       /> 
 
-      <LinkText 
+      <TextButton 
         extraStyle={{
           fontSize: 12,
           textDecorationLine: 'underline',
@@ -66,7 +65,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
       </View>    
 
       <View>
-       <LinkText 
+       <TextButton  
         extraStyle={{
           marginVertical: 15,
           fontSize: 13,
