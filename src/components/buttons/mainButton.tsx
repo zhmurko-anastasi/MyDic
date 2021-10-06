@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
 
 import {mainBlack, mainGrey} from '../../constants/Colors';
@@ -22,14 +22,7 @@ export const MainButton: React.FC<Props> = ({
           borderless: false,
           radius: 100,
       }}
-      style={({ pressed }) => [
-        {
-          backgroundColor: pressed
-            ? mainGrey
-            : mainBlack
-        },
-        styles.container
-      ]}
+      style={({pressed}) => pressed ? buttonPressed : buttonUnPressed}
     >
         <Text 
           style={styles.text}>
@@ -49,6 +42,13 @@ const styles = StyleSheet.create({
        alignItems: 'center',
        justifyContent: 'center',
    },
+    pressed: {
+       backgroundColor: mainGrey
+    },
+    unPressed: {
+       backgroundColor: mainBlack
+    },
+   
    text: {
        color: '#fff',
        fontFamily: 'AmaticSC-Bold',
@@ -56,3 +56,5 @@ const styles = StyleSheet.create({
    }
 });
 
+const buttonPressed = StyleSheet.compose(styles.container, styles.pressed);
+const buttonUnPressed = StyleSheet.compose(styles.container, styles.unPressed);

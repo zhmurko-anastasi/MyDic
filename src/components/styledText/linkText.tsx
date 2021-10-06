@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
 
 import {highlightColor} from '../../constants/Colors';
@@ -22,7 +22,7 @@ export const LinkText: React.FC<Props> = ({
        {({ pressed }) =>
         <Text style={pressed ? ({...styles.link, ...styles.linkPressed, ...extraStyle}) : ({...styles.link, ...extraStyle}) }>
            {title}
-         </Text>
+        </Text>
        }
       </Pressable>
     )
