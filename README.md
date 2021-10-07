@@ -1,2 +1,2 @@
-# MyDic
+# MyDictionary
 rn-project
