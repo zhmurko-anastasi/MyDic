@@ -16,18 +16,18 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
      callBack(() => value)
   }
 
-  const handlerForgotButton = () => {
+  const handlerForgotButtonClick = () => {
     console.log('Forgot Password');
   }
 
-  const handlerLoginButton = () => {
-    console.log('Login');
+  const handlerLoginButtonClick = () => {
+    navigation.navigate('Home');
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>
-         My Dic
+         My Dictionary
       </Text>
       <View style={styles.inputsContainer}>
 
@@ -50,7 +50,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
           fontSize: 12,
           textDecorationLine: 'underline',
         }}
-        onPress={handlerForgotButton}
+        onPress={handlerForgotButtonClick}
         title={'Forgot password'}
       />
 
@@ -59,7 +59,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
       <View style={styles.button}>
         <MainButton
           title={'Login'}
-          onPress={handlerLoginButton}
+          onPress={handlerLoginButtonClick}
         />
 
       </View>    
@@ -71,27 +71,24 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
           fontSize: 13,
           textDecorationLine: 'underline',
         }}
-        onPress={handlerForgotButton}
+        onPress={handlerForgotButtonClick}
         title={'Sign Up'}
       /> 
       </View> 
 
       <View style={styles.socialContainer}>
         <Pressable style={styles.socialIcon}>
-          {({ pressed }) =>
+          {({pressed}) =>
             <Entypo name="facebook-with-circle" size={30} color={pressed ? mainGrey: mainBlack} />
           }
         </Pressable>
         
         <Pressable style={styles.socialIcon}>
-          {({ pressed }) =>
+          {({pressed}) =>
             <Entypo name="google--with-circle"size={30} color={pressed ? mainGrey: mainBlack} />
           }
         </Pressable>
       </View>
-     
-    
-
     </View>
   );
 }
