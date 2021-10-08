@@ -1,32 +1,85 @@
-
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { ColorSchemeName} from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
-import NotFoundScreen from '../src/modules/NotFoundScreen';
-import LoginScreen from '../src/modules/LoginScreen';
+import { Ionicons } from '@expo/vector-icons'; 
+import  { mainBlack, mainGrey } from '../src/constants/Colors';
+import { RootStackParamList, RootTabParamList } from '../src/constants/types';
+import {
+   HomeScreen, 
+   ListScreen,
+   LoginScreen,
+   CreateScreen,
+   ProfileScreen,
+   DetailsScreen,
+   SettingsScreen,
+   NotFoundScreen, 
+  }from '../src/modules';
+import { Routes } from '../src/constants/Routes';
 
-import { RootStackParamList } from '../types';
-
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
-    <NavigationContainer
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RootNavigator />
     </NavigationContainer>
   );
 }
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name={Routes.root} component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name={Routes.list} component={ListScreen} options={{ headerShown: true }} />
+      <Stack.Screen name={Routes.login} component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name={Routes.details} component={DetailsScreen} options={{ headerShown: true }} />
+      <Stack.Screen name={Routes.notFound} component={NotFoundScreen} options={{headerShown: false  }} />
     </Stack.Navigator>
   );
 }
 
+const BottomTab = createBottomTabNavigator<RootTabParamList>();
+
+function BottomTabNavigator() {
+
+  return (
+    <BottomTab.Navigator initialRouteName={Routes.home} screenOptions={{tabBarActiveTintColor: mainBlack, tabBarInactiveTintColor: mainGrey,}} >
+      <BottomTab.Screen
+        name={Routes.home}
+        component={HomeScreen}
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons color={color}  size={30} name="home" />,
+        }}
+      />
+      <BottomTab.Screen
+        name={Routes.profile}
+        component={ProfileScreen}
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color}: { color: string }) => <Ionicons color={color}  size={30} name="person-circle-outline" />,
+        }}
+      />
+      <BottomTab.Screen
+        name={Routes.create}
+        component={CreateScreen}
+        options={{
+          title: 'Create',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons color={color}  size={30} name="add-circle-outline" />,
+
+        }}
+      />
+      <BottomTab.Screen
+        name={Routes.settings}
+        component={SettingsScreen}
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons color={color} size={30} name="settings-outline" />,
+        }}
+      />
+    </BottomTab.Navigator>
+   );
+}

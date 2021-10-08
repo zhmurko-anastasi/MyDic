@@ -33,14 +33,11 @@ const InputWithIcon: React.FC<Props> = ({
     />
 
     </View>
-
-  
     )
 };
 
 const styles = StyleSheet.create({
   input: {
-    height: 90,
     marginHorizontal: 0,
     marginVertical: 12,
     borderColor: mainGrey,
@@ -48,9 +45,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     flex: 1,
-    paddingTop: 10,
+    paddingVertical: 10,
     paddingRight: 10,
-    paddingBottom: 10,
     paddingLeft: 40,
     color: mainBlack,
     position: 'relative',
@@ -61,7 +57,7 @@ const styles = StyleSheet.create({
     left: 10,
 },
   inputSection: {
-    height: 70,
+    height: 75,
 },
 });
 
