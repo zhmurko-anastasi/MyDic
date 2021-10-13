@@ -2,13 +2,14 @@ import * as React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Ionicons, Entypo } from '@expo/vector-icons'; 
-import { RootStackScreenProps } from '../../types';
+import { RootStackScreenProps } from '../../constants/types';
 
-import { mainBlack, mainGrey } from '../constants/Colors';
-import { InputWithIcon, MainButton, TextButton  } from '../components';
+import { mainBlack, mainGrey } from '../../constants/Colors';
+import { InputWithIcon, MainButton, TextButton  } from '../../components';
+import { Routes } from '../../constants/Routes';
 
 
-export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'>) {
+export function LoginScreen({ navigation }: RootStackScreenProps<Routes.login>) {
   const [pass, setPass] = React.useState('');
   const [email, setEmail] = React.useState('');
 
@@ -21,7 +22,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
   }
 
   const handlerLoginButtonClick = () => {
-    navigation.navigate('Home');
+    navigation.navigate(Routes.home);
   }
 
   return (

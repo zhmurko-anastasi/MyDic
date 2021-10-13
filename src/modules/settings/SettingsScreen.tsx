@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { RootStackScreenProps } from '../../types';
+import { Routes } from '../../constants/Routes';
+import { RootStackScreenProps } from '../../constants/types';
 
-export default function NotFoundScreen({ navigation }: RootStackScreenProps<'NotFound'>) {
+export function SettingsScreen({ navigation }: RootStackScreenProps<Routes.settings>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>This screen doesn't exist.</Text>
-      <Pressable onPress={() => navigation.replace('Login')} style={styles.link}>
-        <Text style={styles.linkText}>Go to home screen!</Text>
+      <Pressable onPress={() => navigation.replace(Routes.login)} style={styles.link}>
+        <Text style={styles.linkText}>Settings Screen!</Text>
       </Pressable>
     </View>
   );

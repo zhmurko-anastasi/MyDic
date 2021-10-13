@@ -9,7 +9,7 @@ export type Props = {
   onPress: () => void;
 };
 
-export const TextButton: React.FC<Props> = ({
+ const TextButton: React.FC<Props> = ({
     title,
     extraStyle,
     onPress,
@@ -43,3 +43,4 @@ const styles = StyleSheet.create({
      }
   });
 
+  export default TextButton;
