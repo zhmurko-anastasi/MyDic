@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-import {mainBlack, mainGrey} from '../../constants/Colors';
+import {Colors} from '../../constants/Colors';
 
 export type Props = {
-  icon: React.ReactElement;
   value: string;
-  placeholder: string;
   onChange: Function;
+  placeholder?: string;
+  icon?: React.ReactElement;
 };
 
-const InputWithIcon: React.FC<Props> = ({
+const Input: React.FC<Props> = ({
     icon,
     value,
     placeholder,
@@ -26,10 +26,10 @@ const InputWithIcon: React.FC<Props> = ({
     
     <TextInput
          {...rest}
-         style={styles.input}
-         onChangeText={(e) => onChange(e)}
          value={value}
          placeholder={placeholder}
+         onChangeText={(e) => onChange(e)}
+         style={[styles.input, icon && styles.withIcon]}
     />
 
     </View>
@@ -38,28 +38,30 @@ const InputWithIcon: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   input: {
-    marginHorizontal: 0,
-    marginVertical: 12,
-    borderColor: mainGrey,
-    borderRadius: 10,
-    borderWidth: 1,
-    padding: 10,
     flex: 1,
-    paddingVertical: 10,
-    paddingRight: 10,
-    paddingLeft: 40,
-    color: mainBlack,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginVertical: 12,
     position: 'relative',
+    marginHorizontal: 0,
+    paddingHorizontal: 10,
+    color: Colors.mainBlack,
+    fontFamily: 'NanumMyeongjo',
+    borderColor: Colors.mainGrey,
 },
   inputIcon: {
-    position: 'absolute',
-    top: '37%',
     left: 10,
+    top: '37%',
+    position: 'absolute',
 },
   inputSection: {
     height: 75,
 },
+withIcon: {
+  paddingLeft: 40,
+},
 });
 
-export default InputWithIcon;
+export default Input;
 

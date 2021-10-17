@@ -1,22 +1,26 @@
-export const mainBlack = '#292929';
-export const mainGrey = '#616161';
-export const highlightColor = '#18BBC7';
-
+export const Colors = {
+  mainBlack: '#292929',
+  secondaryBlack: '#303030',
+  mainGrey: '#616161',
+  secondaryGrey: '#989898',
+  highlightMain: '#18BBC7',
+  highlightSecondary: '#FFB273',
+}
 
 export default {
   light: {
     text: '#000',
     background: '#fff',
-    tint: mainGrey,
+    tint:Colors.mainGrey,
     tabIconDefault: '#ccc',
-    tabIconSelected: mainBlack,
+    tabIconSelected: Colors.mainBlack,
   },
   dark: {
     text: '#fff',
     background: '#000',
-    tint: mainGrey,
+    tint: Colors.mainGrey,
     tabIconDefault: '#ccc',
-    tabIconSelected: mainBlack,
+    tabIconSelected: Colors.mainBlack,
   },
 };
 

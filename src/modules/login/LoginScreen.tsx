@@ -4,9 +4,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons'; 
 import { RootStackScreenProps } from '../../constants/types';
 
-import { mainBlack, mainGrey } from '../../constants/Colors';
-import { InputWithIcon, MainButton, TextButton  } from '../../components';
+import { Colors } from '../../constants/Colors';
 import { Routes } from '../../constants/Routes';
+import { Input, MainButton, TextButton  } from '../../components';
 
 
 export function LoginScreen({ navigation }: RootStackScreenProps<Routes.login>) {
@@ -32,18 +32,18 @@ export function LoginScreen({ navigation }: RootStackScreenProps<Routes.login>) 
       </Text>
       <View style={styles.inputsContainer}>
 
-      <InputWithIcon 
+      <Input 
         value={email} 
         placeholder=''
         onChange={(value: string) => onChange(value, setEmail)}
-        icon = {<Ionicons name="md-mail-outline" size={15} color={mainGrey}  />}
+        icon = {<Ionicons name="md-mail-outline" size={15} color={Colors.mainGrey}  />}
       /> 
 
-      <InputWithIcon 
+      <Input 
         value={pass} 
         placeholder=''
         onChange={(value: string) => onChange(value, setPass)}
-        icon = {<Ionicons name="key-outline" size={15} color={mainGrey}  />}
+        icon = {<Ionicons name="key-outline" size={15} color={Colors.mainGrey}  />}
       /> 
 
       <TextButton 
@@ -80,13 +80,13 @@ export function LoginScreen({ navigation }: RootStackScreenProps<Routes.login>) 
       <View style={styles.socialContainer}>
         <Pressable style={styles.socialIcon}>
           {({pressed}) =>
-            <Entypo name="facebook-with-circle" size={30} color={pressed ? mainGrey: mainBlack} />
+            <Entypo name="facebook-with-circle" size={30} color={pressed ? Colors.mainGrey: Colors.mainBlack} />
           }
         </Pressable>
         
         <Pressable style={styles.socialIcon}>
           {({pressed}) =>
-            <Entypo name="google--with-circle"size={30} color={pressed ? mainGrey: mainBlack} />
+            <Entypo name="google--with-circle"size={30} color={pressed ? Colors.mainGrey: Colors.mainBlack} />
           }
         </Pressable>
       </View>
@@ -97,21 +97,21 @@ export function LoginScreen({ navigation }: RootStackScreenProps<Routes.login>) 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 20,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
   },
   inputsContainer: {
     width: '100%',
     marginBottom: '15%',
   },
   titleText: {
-    fontFamily: 'AmaticSC-Bold',
     fontSize: 36,
-    color: mainBlack,
     fontWeight: '200',
     marginBottom: '10%',
+    color: Colors.mainBlack,
+    fontFamily: 'AmaticSC-Bold',
   },
    button: {
      width: '60%',
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
    },
    socialContainer: {
      flex: 0.1,
-     flexDirection: 'row',
      marginTop: 40,
+     flexDirection: 'row',
      alignItems: 'flex-end',
    },
    socialIcon: {

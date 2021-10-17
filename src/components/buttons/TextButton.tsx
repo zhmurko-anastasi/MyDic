@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
 
-import {highlightColor} from '../../constants/Colors';
+import {Colors} from '../../constants/Colors';
 
 export type Props = {
   title: string,
@@ -30,13 +30,13 @@ export type Props = {
 
 const styles = StyleSheet.create({
      linkContainer: {
-      alignItems: 'flex-end',
-      width: '100%',
+       width: '100%',
+       alignItems: 'flex-end',
      }, 
      link: {
-       fontFamily: 'NanumMyeongjo-Bold',
-       color: highlightColor,
        fontSize: 12,
+       color: Colors.highlightMain,
+       fontFamily: 'NanumMyeongjo-Bold',
      },
      linkPressed: {
       opacity: 0.8
