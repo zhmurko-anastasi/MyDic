@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Asset } from 'expo-asset';
 import * as ImagePicker from 'expo-image-picker';
-import { Pressable, StyleSheet, Text, View, Platform, Image, ImageBackground, ScrollView } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View, Image, ImageBackground, ScrollView } from 'react-native';
 
 import { Routes } from '../../constants/Routes';
 import { Colors } from '../../constants/Colors';
@@ -12,20 +12,13 @@ const DEFAULT_URI_AVATAR = '../../../assets/images/avatar.png';
 const DEFAULT_URI_BACKGROUD = '../../../assets/images/backgr.png';
 
 const getPermission = async () => {
-  if (Platform.OS !== 'web') {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+      Alert.alert('Sorry, we need camera roll permissions to make this work!');
       return false;
     } else {
       return true;
     }
-  }
-  return true;
-}
-
-const onChange = (value: string, callBack: Function) => {
-  callBack(() => value)
 }
 
 export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profile>) => {
@@ -35,7 +28,7 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
   const [lightTheme, setLightTheme] = React.useState(true);
   const [email, setEmail] = React.useState('email@gmail.com');
   const [nickName, setNickName] = React.useState('My NickName');
-  const [pushNotification, setPushNotification] = React.useState(false);;
+  const [pushNotification, setPushNotification] = React.useState(false);
 
   const pickImage = async () => {
     let isGranted = await getPermission();
@@ -54,8 +47,8 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
   };
 
   React.useEffect(() => {
-    (async () => setImage(Asset.fromModule(require(DEFAULT_URI_AVATAR)).uri))();
-    (async () => setBcground(Asset.fromModule(require(DEFAULT_URI_BACKGROUD)).uri))();
+    setImage(Asset.fromModule(require(DEFAULT_URI_AVATAR)).uri);
+    setBcground(Asset.fromModule(require(DEFAULT_URI_BACKGROUD)).uri);
   }, [])
 
   return (
@@ -78,7 +71,7 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
           icon={undefined} 
           value={nickName} 
           placeholder={'enter your nick'} 
-          onChange={(value: string) => onChange(value, setNickName)}
+          onChange={setNickName}
         />
 
         <StyledLine type={"direct"} color={'main'} />
@@ -87,7 +80,7 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
           icon={undefined} 
           value={name} 
           placeholder={'enter your name'} 
-          onChange={(value: string) => onChange(value, setName)}
+          onChange={setName}
         />
         
         <StyledLine type={"reverse"} color={'secondary'} />
@@ -95,14 +88,14 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
         <Input 
           icon={undefined} 
           value={email} 
-          onChange={(value: string) => onChange(value, setEmail)}
+          onChange={setEmail}
         />
 
         <View style={styles.switchContainer}>
           <Text style={styles.switchTitle}>Light theme on/off</Text>
         <Switch
           value={lightTheme}
-          onChange={(value: boolean) => setLightTheme(value)}
+          onChange={setLightTheme}
         />
         </View>
 
@@ -110,7 +103,7 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
           <Text style={styles.switchTitle}>Push Notifications on/off</Text>
           <Switch
             value={pushNotification}
-            onChange={(value: boolean) => setPushNotification(value)}
+            onChange={setPushNotification}
           /> 
         </View>
       </View>

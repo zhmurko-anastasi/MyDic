@@ -5,7 +5,7 @@ import {Colors} from '../../constants/Colors';
 
  interface Props {
     type?: string;
-    color?: string
+    color?: string;
   };
   
   export const StyledLine: React.FC<Props> = ({
@@ -13,18 +13,13 @@ import {Colors} from '../../constants/Colors';
        color = 'main',
   }) => {
      /* array's length may change due to designer's reasons =)  */
-    const widthsArray = [40];
+    const widthsArray = [30];
     const colorStyle = color === 'main' ? styles.main : styles.secondary;
-
-    const getSizeStyle = (size: number) => {
-        return (size === 1) ? styles.width_1 : (size === 10) ? styles.width_10 : styles.width_30;
-    };
 
     return (
     <View style={[styles.container, type === 'reverse' && styles.reverse]}>
         {widthsArray.map((size, index) => {
-            let sizeStyle = getSizeStyle(size);
-            return <View style={[colorStyle, sizeStyle]} key={Date.now() + index}/>
+            return <View style={[colorStyle, {width: size + '%'}]} key={Date.now() + index}/>
         })}
     </View>
     )
@@ -49,15 +44,6 @@ import {Colors} from '../../constants/Colors';
   },
   reverse: {
    justifyContent: 'flex-end'
-  },
-  width_30: {
-    width: '30%',
-  },
-  width_10: {
-    width: '10%',
-  },
-  width_1: {
-    width: '1%',
   },
   });
 

@@ -5,7 +5,7 @@ import {Colors} from '../../constants/Colors';
 
 export type Props = {
   value: string;
-  onChange: Function;
+  onChange: (value: string) => string | void;
   placeholder?: string;
   icon?: React.ReactElement;
 };
@@ -28,7 +28,7 @@ const Input: React.FC<Props> = ({
          {...rest}
          value={value}
          placeholder={placeholder}
-         onChangeText={(e) => onChange(e)}
+         onChangeText={onChange}
          style={[styles.input, icon && styles.withIcon]}
     />
 
