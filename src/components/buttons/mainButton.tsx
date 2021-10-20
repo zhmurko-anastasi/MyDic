@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
 
-import { mainBlack, mainGrey } from '../../constants/Colors';
+import { Colors } from '../../constants/Colors';
 
 export type Props = {
   title: string,
@@ -18,7 +18,7 @@ const MainButton: React.FC<Props> = ({
       {...rest}
       onPress={onPress}
       android_ripple={{
-          color: mainGrey,
+          color: Colors.mainGrey,
           borderless: false,
           radius: 100,
       }}
@@ -35,18 +35,18 @@ const MainButton: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
    container: {
+       elevation: 3,
        height: '100%',
        borderRadius: 15,
-       backgroundColor: mainBlack,
-       elevation: 3,
        alignItems: 'center',
        justifyContent: 'center',
+       backgroundColor: Colors.mainBlack,
    },
     pressed: {
-       backgroundColor: mainGrey
+       backgroundColor: Colors.mainGrey
     },
     unPressed: {
-       backgroundColor: mainBlack
+       backgroundColor: Colors.mainBlack
     },
    
    text: {

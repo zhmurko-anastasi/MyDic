@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { Ionicons } from '@expo/vector-icons'; 
 import { ColorSchemeName} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
-import { Ionicons } from '@expo/vector-icons'; 
-import  { mainBlack, mainGrey } from '../src/constants/Colors';
+import  { Colors } from '../src/constants/Colors';
 import { RootStackParamList, RootTabParamList } from '../src/constants/types';
 import {
    HomeScreen, 
@@ -46,7 +46,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
 
   return (
-    <BottomTab.Navigator initialRouteName={Routes.home} screenOptions={{tabBarActiveTintColor: mainBlack, tabBarInactiveTintColor: mainGrey,}} >
+    <BottomTab.Navigator initialRouteName={Routes.home} screenOptions={{tabBarActiveTintColor: Colors.mainBlack, tabBarInactiveTintColor: Colors.mainGrey,}} >
       <BottomTab.Screen
         name={Routes.home}
         component={HomeScreen}
