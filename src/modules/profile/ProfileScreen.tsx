@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { Asset } from 'expo-asset';
+import { useQuery } from '@apollo/client';
 import * as ImagePicker from 'expo-image-picker';
 import { Alert, Pressable, StyleSheet, Text, View, Image, ImageBackground, ScrollView } from 'react-native';
 
 import { Routes } from '../../constants/Routes';
 import { Colors } from '../../constants/Colors';
+import { GET_USER_INFO } from './graphql';
 import { RootStackScreenProps } from '../../constants/types';
 import { Input, StyledLine, Switch } from '../../components';
 
@@ -30,6 +32,8 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
   const [nickName, setNickName] = React.useState('My NickName');
   const [pushNotification, setPushNotification] = React.useState(false);
 
+  const {data, loading, error} = useQuery(GET_USER_INFO);
+
   const pickImage = async () => {
     let isGranted = await getPermission();
     if (isGranted) {
@@ -49,7 +53,7 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
   React.useEffect(() => {
     setImage(Asset.fromModule(require(DEFAULT_URI_AVATAR)).uri);
     setBcground(Asset.fromModule(require(DEFAULT_URI_BACKGROUD)).uri);
-  }, [])
+   }, [])
 
   return (
     <ScrollView style={styles.scroll}>
@@ -105,8 +109,9 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
             value={pushNotification}
             onChange={setPushNotification}
           /> 
-        </View>
-      </View>
+       </View>
+
+      </View> 
 
     </View>
     </ScrollView>
@@ -115,17 +120,13 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
 
 const styles = StyleSheet.create({
   scroll: {
-   flex: 1,
-   backgroundColor: '#fff',
+  flex: 1,
   },
   container: {
-    flex: 1,
     alignItems: 'center',
-    backgroundColor: '#fff',
-    justifyContent: 'center',
   },
   imageContainer: {
-    flex: 0.3,
+    height: 200,
     elevation: 1,
     width: '100%',
     alignItems: 'center',
@@ -170,3 +171,5 @@ const styles = StyleSheet.create({
     fontFamily: 'AmaticSC-Bold',
   }
 });
+
+
