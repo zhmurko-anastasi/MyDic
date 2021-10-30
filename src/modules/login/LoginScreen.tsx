@@ -1,17 +1,20 @@
 import * as React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useMutation } from '@apollo/client';
 import { Ionicons, Entypo } from '@expo/vector-icons'; 
 import { RootStackScreenProps } from '../../constants/types';
 
 import { Colors } from '../../constants/Colors';
 import { Routes } from '../../constants/Routes';
+import { CREATE_USER } from '../login/graphql';
 import { Input, MainButton, TextButton  } from '../../components';
-
 
 export function LoginScreen({ navigation }: RootStackScreenProps<Routes.login>) {
   const [pass, setPass] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const [createUser, {data, error}] = useMutation(CREATE_USER);
 
   const onChange = (value: string, callBack: Function) => {
      callBack(() => value)
@@ -21,8 +24,20 @@ export function LoginScreen({ navigation }: RootStackScreenProps<Routes.login>) 
     console.log('Forgot Password');
   }
 
-  const handlerLoginButtonClick = () => {
-    navigation.navigate(Routes.home);
+  const storeData = async (key: string, data: any) => {
+    try {
+      await AsyncStorage.setItem(`@${key}`, data[key])
+    } catch (e) {
+      console.error('Error async storage:', e)
+    }
+  }
+
+  const handlerLoginButtonClick = async() => {
+    await createUser({variables: {email: email, password: pass}});
+    if (data) {
+      storeData('userId', data['createUser']) 
+    }
+    navigation.navigate(Routes.root);
   }
 
   return (
@@ -126,6 +141,5 @@ const styles = StyleSheet.create({
    socialIcon: {
      elevation: 3,
      marginHorizontal: 10,
-    
    }
 });

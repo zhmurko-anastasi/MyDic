@@ -1,31 +1,23 @@
 import { gql } from "@apollo/client";
 
 export const GET_USER_INFO = gql`
-query GetUserInfo{
-    items{
-            itemId
-            title
-            description
-            image
-            createdAt
-            updatedAt
-            status
+query GetUserInfo($userId: String!){
+    findOneUser(userId: $userId){
+        userId
+        email
+        name
+        image
+        surname
     }
 }
 `;
 
-export const CREATE_USER= gql`
-mutation CreareUser($createUserInput: CreateUser){
-    createUser(createUserInput: CreateUser){
+export const UPDATE_USER_INFO = gql`
+mutation UpdateUserInfo($image: Upload, $email: String, $name: String, $surname: String, $userId: String!){
+    updateUser(createUserInput: {email: $email, name: $name, surname: $surname, userId: $userId}, image: $image){
     userId
     email
-    description
-    password
-    name
-    surname
-    age
-    phone
-    address
+    password,
     image
   }
 }
