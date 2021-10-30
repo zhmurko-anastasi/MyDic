@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { Asset } from 'expo-asset';
-import { useQuery } from '@apollo/client';
-import * as ImagePicker from 'expo-image-picker';
-import { Alert, Pressable, StyleSheet, Text, View, Image, ImageBackground, ScrollView } from 'react-native';
+import { ReactNativeFile } from 'apollo-upload-client';
 
+import * as ImagePicker from 'expo-image-picker';
+import { useMutation, useQuery } from '@apollo/client';
+import { Alert, Pressable, StyleSheet, Text, View, Image, ImageBackground, ScrollView} from 'react-native';
+
+import { userId } from '../../mock';
 import { Routes } from '../../constants/Routes';
 import { Colors } from '../../constants/Colors';
-import { GET_USER_INFO } from './graphql';
 import { RootStackScreenProps } from '../../constants/types';
-import { Input, StyledLine, Switch } from '../../components';
+import { GET_USER_INFO, UPDATE_USER_INFO } from './graphql';
+import { Input, MainButton, StyledLine, Switch } from '../../components';
 
 const DEFAULT_URI_AVATAR = '../../../assets/images/avatar.png';
 const DEFAULT_URI_BACKGROUD = '../../../assets/images/backgr.png';
@@ -29,16 +32,26 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
   const [name, setName] = React.useState('Anastasiia');
   const [lightTheme, setLightTheme] = React.useState(true);
   const [email, setEmail] = React.useState('email@gmail.com');
-  const [nickName, setNickName] = React.useState('My NickName');
+  const [surname, setSurname] = React.useState('My Surname');
   const [pushNotification, setPushNotification] = React.useState(false);
+  const [fileToUpload, setFileToUpload] = React.useState<ReactNativeFile>();
 
-  const {data, loading, error} = useQuery(GET_USER_INFO);
+  const {data, loading, error} = useQuery(GET_USER_INFO, {variables: {userId: userId}});
+  const [updateUser] = useMutation(UPDATE_USER_INFO);
 
+   const generateRNFile = (uri: string) => {
+    return new ReactNativeFile({
+      uri,
+      type: 'image/jpeg',
+      name: uri.split('/').pop(),
+    });
+  }
+  
   const pickImage = async () => {
     let isGranted = await getPermission();
     if (isGranted) {
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
@@ -46,69 +59,97 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
 
       if (!result.cancelled) {
         setImage(result.uri);
+        let file = generateRNFile(result.uri);
+        setFileToUpload(file)
       }
     }
   };
 
+  const handlerSaveButtonPress = async () => {
+    let data = await updateUser({variables:
+       {userId: userId, 
+        email: email, 
+        name: name, 
+        surname: surname, 
+        image: fileToUpload
+      }});
+  }
+
   React.useEffect(() => {
-    setImage(Asset.fromModule(require(DEFAULT_URI_AVATAR)).uri);
+    if(data) {
+      data['findOneUser'].image && setImage(data['findOneUser'].image);
+      data['findOneUser'].email && setEmail(data['findOneUser'].email);
+      data['findOneUser'].surname && setName(data['findOneUser'].surname);
+      data['findOneUser'].image && setImage(data['findOneUser'].image)
+    } else {
+      setImage(Asset.fromModule(require(DEFAULT_URI_AVATAR)).uri);
+    }
     setBcground(Asset.fromModule(require(DEFAULT_URI_BACKGROUD)).uri);
-   }, [])
+   }, [data])
 
   return (
     <ScrollView style={styles.scroll}>
-    <View style={styles.container}>
-      <ImageBackground style={styles.imageContainer} source={{ uri: bcground }}>
-        <Pressable onPress={pickImage} style={styles.imageWrape}>
-          <Image
-            style={styles.image}
-            source={{ uri: image }}
+      <View style={styles.container}>
+        <ImageBackground style={styles.imageContainer} source={{ uri: bcground }}>
+          <Pressable onPress={pickImage} style={styles.imageWrape}>
+            <Image
+              style={styles.image}
+              source={{ uri: image }}
+            />
+          </Pressable>
+
+        </ImageBackground >
+
+        <View style={styles.infoContainer}>
+
+          <Text style={styles.title}> Profile </Text>
+          <Input
+            icon={undefined}
+            value={surname}
+            placeholder={'enter your nick'}
+            onChange={setSurname}
           />
-        </Pressable>
 
-      </ImageBackground >
+          <StyledLine type={"direct"} color={'main'} />
 
-      <View style={styles.infoContainer}>
+          <Input
+            icon={undefined}
+            value={name}
+            placeholder={'enter your name'}
+            onChange={setName}
+          />
 
-        <Text style={styles.title}> Profile </Text>
-        <Input 
-          icon={undefined} 
-          value={nickName} 
-          placeholder={'enter your nick'} 
-          onChange={setNickName}
-        />
+          <StyledLine type={"reverse"} color={'secondary'} />
 
-        <StyledLine type={"direct"} color={'main'} />
+          <Input
+            icon={undefined}
+            value={email}
+            onChange={setEmail}
+          />
 
-        <Input 
-          icon={undefined} 
-          value={name} 
-          placeholder={'enter your name'} 
-          onChange={setName}
-        />
-        
-        <StyledLine type={"reverse"} color={'secondary'} />
+          <View style={styles.switchContainer}>
+            <Text style={styles.switchTitle}>Light theme on/off</Text>
+            <Switch
+              value={lightTheme}
+              onChange={setLightTheme}
+            />
+          </View>
 
-        <Input 
-          icon={undefined} 
-          value={email} 
-          onChange={setEmail}
-        />
+          <View style={styles.switchContainer}>
+            <Text style={styles.switchTitle}>Push Notifications on/off</Text>
+            <Switch
+              value={pushNotification}
+              onChange={setPushNotification}
+            />
+          </View>
 
-        <View style={styles.switchContainer}>
-          <Text style={styles.switchTitle}>Light theme on/off</Text>
-        <Switch
-          value={lightTheme}
-          onChange={setLightTheme}
-        />
-        </View>
-
-        <View style={styles.switchContainer}>
-          <Text style={styles.switchTitle}>Push Notifications on/off</Text>
-          <Switch
-            value={pushNotification}
-            onChange={setPushNotification}
-          /> 
+       <View style={styles.container}>
+         <View style={styles.button}>
+            <MainButton
+              title={'Save'}
+              onPress={handlerSaveButtonPress}
+            />
+         </View>
        </View>
 
       </View> 
@@ -169,7 +210,11 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: Colors.mainBlack,
     fontFamily: 'AmaticSC-Bold',
-  }
+  },
+  button: {
+    width: '60%',
+    height: 50,
+  },
 });
 
 
