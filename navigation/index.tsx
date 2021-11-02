@@ -31,12 +31,12 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name={Routes.root} component={BottomTabNavigator} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName={Routes.login}>
       <Stack.Screen name={Routes.list} component={ListScreen} options={{ headerShown: true }} />
       <Stack.Screen name={Routes.login} component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name={Routes.details} component={DetailsScreen} options={{ headerShown: true }} />
       <Stack.Screen name={Routes.notFound} component={NotFoundScreen} options={{headerShown: false  }} />
+      <Stack.Screen name={Routes.root} component={BottomTabNavigator} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
