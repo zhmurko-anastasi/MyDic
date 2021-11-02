@@ -31,8 +31,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 
 function RootNavigator() {
   return (
-    <Stack.Navigator initialRouteName={Routes.login}>
-      <Stack.Screen name={Routes.list} component={ListScreen} options={{ headerShown: true }} />
+    <Stack.Navigator initialRouteName={Routes.root}>
       <Stack.Screen name={Routes.login} component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name={Routes.details} component={DetailsScreen} options={{ headerShown: true }} />
       <Stack.Screen name={Routes.notFound} component={NotFoundScreen} options={{headerShown: false  }} />
@@ -46,7 +45,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
 
   return (
-    <BottomTab.Navigator initialRouteName={Routes.home} screenOptions={{tabBarActiveTintColor: Colors.mainBlack, tabBarInactiveTintColor: Colors.mainGrey,}} >
+    <BottomTab.Navigator initialRouteName={Routes.list} screenOptions={{tabBarActiveTintColor: Colors.mainBlack, tabBarInactiveTintColor: Colors.mainGrey,}} >
       <BottomTab.Screen
         name={Routes.home}
         component={HomeScreen}
@@ -73,11 +72,11 @@ function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name={Routes.settings}
-        component={SettingsScreen}
+        name={Routes.list}
+        component={ListScreen}
         options={{
-          title: 'Settings',
-          tabBarIcon: ({ color }: { color: string }) => <Ionicons color={color} size={30} name="settings-outline" />,
+          title: 'List',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons color={color} size={30} name="list" />,
         }}
       />
     </BottomTab.Navigator>
