@@ -3,7 +3,7 @@ import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 
-export default function useCachedResources() {
+export default async function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   Font.useFonts({
     'AmaticSC': require('../../assets/fonts/AmaticSC-Regular.ttf'),

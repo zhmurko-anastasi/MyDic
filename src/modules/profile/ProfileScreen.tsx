@@ -48,21 +48,24 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
   }
   
   const pickImage = async () => {
-    let isGranted = await getPermission();
-    if (isGranted) {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
+    try {
+      let isGranted = await getPermission();
+      if (isGranted) {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
 
-      if (!result.cancelled) {
-        setImage(result.uri);
-        let file = generateRNFile(result.uri);
-        setFileToUpload(file)
+        if (!result.cancelled) {
+          setImage(result.uri);
+          let file = generateRNFile(result.uri);
+          setFileToUpload(file)
+        }
       }
     }
+    catch (err) { console.log('Inage Picker Error:', err) }
   };
 
   const handlerSaveButtonPress = async () => {
@@ -76,11 +79,12 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
   }
 
   React.useEffect(() => {
-    if(data) {
-      data['findOneUser'].image && setImage(data['findOneUser'].image);
-      data['findOneUser'].email && setEmail(data['findOneUser'].email);
-      data['findOneUser'].surname && setName(data['findOneUser'].surname);
-      data['findOneUser'].image && setImage(data['findOneUser'].image)
+    if(data['findOneUser']) {
+      let {image, email, surname, name} = data['findOneUser'];
+      setImage(image);
+      setEmail(email);
+      setName(surname);
+      setName(name);
     } else {
       setImage(Asset.fromModule(require(DEFAULT_URI_AVATAR)).uri);
     }

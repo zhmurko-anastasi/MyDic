@@ -1,7 +1,8 @@
-import { ApolloClient, from, gql, InMemoryCache } from '@apollo/client';
+import { ApolloClient, from, InMemoryCache } from '@apollo/client';
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from 'apollo-upload-client';
-import { uri } from '.';
+
+import { BASE_APP_URL } from './constants';
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -14,14 +15,15 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-const typeDefs = gql`
- scalar Upload
-` 
-export const client = new ApolloClient({
+const uploadLink = createUploadLink({
+  uri: BASE_APP_URL,
+  credentials: 'include',
+});
+
+export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
   link: from([
     errorLink, 
-    createUploadLink ({uri})
+    uploadLink,
   ]),
-  typeDefs,
 })
