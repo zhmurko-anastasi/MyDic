@@ -1,5 +1,6 @@
 export const Colors = {
   mainBlack: '#292929',
+  mainWhite: '#fff',
   secondaryBlack: '#303030',
   mainGrey: '#616161',
   secondaryGrey: '#989898',
@@ -7,7 +8,7 @@ export const Colors = {
   highlightSecondary: '#FFB273',
 }
 
-export default {
+export const theme = {
   light: {
     text: '#000',
     background: '#fff',

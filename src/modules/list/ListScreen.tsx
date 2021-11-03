@@ -1,37 +1,66 @@
 import * as React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useQuery } from '@apollo/client';
+import { FlatList, StyleSheet, Text } from 'react-native';
 
 import { Routes } from '../../constants/Routes';
 import { RootStackScreenProps } from '../../constants/types';
 
-export function ListScreen({ navigation }: RootStackScreenProps<Routes.list>) {
+import { Colors }from '../../constants/Colors';
+import { ListItem } from './components';
+import { LIST_DATA } from '../../mock';
+import { GET_ITEMS } from './graphql';
+import { LoadingIndicator } from '../../components/statuses/LoadIndicator';
+
+const keyExtractor = (item: { id: string }): any => {
+  return (item.id)
+}
+
+const listEmptyComponent = () => {
   return (
-    <View style={styles.container}>
-      <Pressable onPress={() => navigation.replace(Routes.login)} style={styles.link}>
-        <Text style={styles.linkText}>List screen!</Text>
-      </Pressable>
-    </View>
+    <Text style={styles.emptyText}>You haven't any words yet</Text>
+  )
+}
+
+export function ListScreen({ navigation }: RootStackScreenProps<Routes.list>) {
+  const { data, loading, error } = useQuery(GET_ITEMS);
+
+  const renderItem = React.useCallback(({ item })=> {
+    return <ListItem item={item} />
+  }, []);
+
+  if (loading) {
+    return <LoadingIndicator
+      size='large'
+      color={Colors.highlightSecondary}
+    />
+  }
+
+  return (
+    <FlatList
+      windowSize={9}
+      data={LIST_DATA}
+      refreshing={loading}
+      initialNumToRender={15}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      ListEmptyComponent={listEmptyComponent}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    backgroundColor: Colors.mainWhite,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+  emptyText: {
+    fontSize: 30,
+    marginTop: '55%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    fontFamily: 'AmaticSC-Bold',
   },
 });
