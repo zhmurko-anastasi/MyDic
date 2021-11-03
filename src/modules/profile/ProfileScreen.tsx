@@ -9,12 +9,14 @@ import { Alert, Pressable, StyleSheet, Text, View, Image, ImageBackground, Scrol
 import { userId } from '../../mock';
 import { Routes } from '../../constants/Routes';
 import { Colors } from '../../constants/Colors';
+import { RootState } from '../../config/redux/types';
+import { setUserData } from './redux';
 import { RootStackScreenProps } from '../../constants/types';
+import { useDispatch, useSelector } from 'react-redux';
 import { GET_USER_INFO, UPDATE_USER_INFO } from './graphql';
 import { Input, MainButton, StyledLine, Switch } from '../../components';
-
-const DEFAULT_URI_AVATAR = '../../../assets/images/avatar.png';
-const DEFAULT_URI_BACKGROUD = '../../../assets/images/backgr.png';
+export const DEFAULT_URI_AVATAR = '../../../assets/images/avatar.png';
+export const DEFAULT_URI_BACKGROUD = '../../../assets/images/backgr.png';
 
 const getPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -27,14 +29,17 @@ const getPermission = async () => {
 }
 
 export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profile>) => {
-  const [image, setImage] = React.useState('');
+  const dispatch = useDispatch();
+  const initialUserData = useSelector((state: RootState) => state.profile);
+  
+  const [name, setName] = React.useState(initialUserData.name);
+  const [image, setImage] = React.useState(initialUserData.image);
+  const [email, setEmail] = React.useState(initialUserData.email);
+  const [surname, setSurname] = React.useState(initialUserData.surname);
   const [bcground, setBcground] = React.useState('');
-  const [name, setName] = React.useState('Anastasiia');
   const [lightTheme, setLightTheme] = React.useState(true);
-  const [email, setEmail] = React.useState('email@gmail.com');
-  const [surname, setSurname] = React.useState('My Surname');
-  const [pushNotification, setPushNotification] = React.useState(false);
   const [fileToUpload, setFileToUpload] = React.useState<ReactNativeFile>();
+  const [pushNotification, setPushNotification] = React.useState(false);
 
   const {data, loading, error} = useQuery(GET_USER_INFO, {variables: {userId: userId}});
   const [updateUser] = useMutation(UPDATE_USER_INFO);
@@ -76,15 +81,12 @@ export const ProfileScreen = ({ navigation }: RootStackScreenProps<Routes.profil
         surname: surname, 
         image: fileToUpload
       }});
+      console.log(data, '----updated user data');
   }
 
   React.useEffect(() => {
-    if(data['findOneUser']) {
-      let {image, email, surname, name} = data['findOneUser'];
-      setImage(image);
-      setEmail(email);
-      setName(surname);
-      setName(name);
+    if(data && data['findOneUser']) {
+      dispatch(setUserData(data['findOneUser']))
     } else {
       setImage(Asset.fromModule(require(DEFAULT_URI_AVATAR)).uri);
     }

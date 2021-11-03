@@ -4,7 +4,7 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import {Colors} from '../../constants/Colors';
 
 export type Props = {
-  value: string;
+  value: string | undefined;
   onChange: (value: string) => string | void;
   placeholder?: string;
   icon?: React.ReactElement;

@@ -2,14 +2,16 @@ import * as React from 'react';
 import { useQuery } from '@apollo/client';
 import { FlatList, StyleSheet, Text } from 'react-native';
 
-import { Routes } from '../../constants/Routes';
-import { RootStackScreenProps } from '../../constants/types';
-
 import { Colors }from '../../constants/Colors';
+import { Routes } from '../../constants/Routes';
 import { ListItem } from './components';
 import { LIST_DATA } from '../../mock';
 import { GET_ITEMS } from './graphql';
+import { RootState } from '../../config/redux/types';
+import { setListData } from './redux';
 import { LoadingIndicator } from '../../components/statuses/LoadIndicator';
+import { RootStackScreenProps } from '../../constants/types';
+import { useDispatch, useSelector } from 'react-redux';
 
 const keyExtractor = (item: { id: string }): any => {
   return (item.id)
@@ -22,6 +24,9 @@ const listEmptyComponent = () => {
 }
 
 export function ListScreen({ navigation }: RootStackScreenProps<Routes.list>) {
+  const dispatch = useDispatch();
+  const listData = useSelector((state: RootState) => state.list.data );
+
   const { data, loading, error } = useQuery(GET_ITEMS);
 
   const renderItem = React.useCallback(({ item })=> {
@@ -35,10 +40,18 @@ export function ListScreen({ navigation }: RootStackScreenProps<Routes.list>) {
     />
   }
 
+  React.useEffect(() => {
+    if(data && data['items']){
+      dispatch(setListData(data['items']))
+    } else {
+      dispatch(setListData(LIST_DATA))
+    }
+  }, [data])
+
   return (
     <FlatList
       windowSize={9}
-      data={LIST_DATA}
+      data={listData}
       refreshing={loading}
       initialNumToRender={15}
       renderItem={renderItem}

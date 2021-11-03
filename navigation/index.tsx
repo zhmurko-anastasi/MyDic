@@ -45,7 +45,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
 
   return (
-    <BottomTab.Navigator initialRouteName={Routes.list} screenOptions={{tabBarActiveTintColor: Colors.mainBlack, tabBarInactiveTintColor: Colors.mainGrey,}} >
+    <BottomTab.Navigator initialRouteName={Routes.profile} screenOptions={{tabBarActiveTintColor: Colors.mainBlack, tabBarInactiveTintColor: Colors.mainGrey,}} >
       <BottomTab.Screen
         name={Routes.home}
         component={HomeScreen}
